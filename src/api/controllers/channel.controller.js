@@ -2,19 +2,42 @@ const createChannel = (req,res) => {
 
 };
 
-const updateChannel = (req,res) => {
+const updateChannelInfo = (req,res) => {
 
 };
+
+
 const deleteChannel = (req,res) => {
 
 };
-const getChannel = (req,res) => {
+
+const getAllAvailableChannels = (req,res) => {
+
+};
+
+const getAllUserSubscribedChannels = (req,res) => {
+
+};
+
+const putMoneyOnChannelBalance = (req,res) => {
+
+};
+
+const buySubscriptionForChannel = (req,res) => {
+
+};
+
+const getAllSubscriptionsForChannel = (req,res) => {
 
 };
 
 module.exports = {
     createChannel,
-    updateChannel,
+    updateChannelInfo,
     deleteChannel,
-    getChannel
+    getAllAvailableChannels,
+    getAllUserSubscribedChannels,
+    putMoneyOnChannelBalance,
+    buySubscriptionForChannel,
+    getAllSubscriptionsForChannel
 }
