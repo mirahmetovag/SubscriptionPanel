@@ -20,8 +20,9 @@ const putMoneyOnBankAccount =  async (req,res) => {
     res.status(200).json({message: 'Successfully was put'});
 };
 
-const withdrawMoneyFromBankAccount =  async (req,res) => {
+const payForChannelFromBankAccount =  async (req,res) => {
     const {cardNumber, amount} = req.body;
+    const channel_id = req.params;
     const transactionType = 'withdraw';
     const theCard = await fetchOne('SELECT * FROM bankAccounts WHERE cardNumber = $1', cardNumber);
     if (!theCard) return res.status(404).json({message: 'The card is not found'});
@@ -32,6 +33,7 @@ const withdrawMoneyFromBankAccount =  async (req,res) => {
         return res.status(409).json({message:`There is no enough money for transaction. You need other ${amount - account.balance}`})
     }
     await fetchOne('UPDATE bankAccounts SET balance = balance - $1 WHERE account_id = $2', amount, account.account_id);
+    await fetchOne('UPDATE members SET balance = balance + $1 WHERE user_id = $2', amount, account.user_id);
     await fetchOne('INSERT INTO transactions (account_id, transactionType, amount) values($1, $2, $3)', account.account_id, transactionType, amount);
     await fetchOne('COMMIT');
     res.status(200).json({message: 'Successfully was withdrawen'});
@@ -58,7 +60,7 @@ const getBankAccountHistory =  async (req,res) => {
 module.exports = {
     createBankAccount,
     putMoneyOnBankAccount,
-    withdrawMoneyFromBankAccount,
+    payForChannelFromBankAccount,
     deleteBankAccount,
     getBankAccountHistory
 }

@@ -1,10 +1,10 @@
-const {sign, verify} = require('../../libs/jwt');
+const {sign} = require('../../libs/jwt');
 const {hashPass, comparePass} = require('../../libs/bcrypt');
 const {fetch, fetchOne} = require('../../libs/pg');
 
 const register = async (req,res) => {
     try {
-        const {username, password, name , surname} = req.body;
+    const {username, password, name , surname} = req.body;
     const findUser = await fetchOne ('select * from users where username=$1', username);
     if (findUser) {
         return res.status(409).json({message: 'Username is already taken'});

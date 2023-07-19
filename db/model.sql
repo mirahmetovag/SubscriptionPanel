@@ -11,12 +11,12 @@ create table users(
     name varchar(255) not null,
     surname varchar(255) not null
 );
-
+ 
 create table channels(
     channel_id uuid default uuid_generate_v4() PRIMARY KEY not null,
     name varchar(255) not null,
     description text not null,
-    subscription_price int,
+    subscriptionPrice int,
     owner_id uuid not null,
     created_at timestamptz default CURRENT_TIMESTAMP,
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
@@ -32,6 +32,7 @@ create table members(
     FOREIGN KEY (channel_id) REFERENCES channels(channel_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
 
 create table bankAccounts(
     account_id uuid default uuid_generate_v4() PRIMARY KEY not null,
@@ -63,3 +64,11 @@ create table subscriptions(
 --to find account_id by cardNumber
 
 SELECT bankAccounts.account_id FROM bankAccounts WHERE cardNumber = $1
+
+--to get a list of channels with their names through members
+
+SELECT channels.name AS channel FROM members JOIN channels USING (channel_id);
+
+--to get a list of subscribers for the channel
+
+SELECT username AS subscriber FROM users JOIN members USING user_id WHERE channel_id = $1, isActive = true;

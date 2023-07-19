@@ -1,14 +1,14 @@
-const { createChannel, deleteChannel, getAllAvailableChannels, getAllUserSubscribedChannels, updateChannelInfo, putMoneyOnChannelBalance, buySubscriptionForChannel,getAllSubscriptionsForChannel } = require('../controllers/channel.controller');
-
+const { createChannel, deleteChannel, getAllAvailableChannels, getAllUserSubscribedChannels, updateChannelInfo, buySubscriptionForChannel,getAllSubscriptionsForChannel } = require('../controllers/channel.controller');
+const isAuth = require('../middlewares/isAuth');
+const isOwner = require('../middlewares/isOwner');
 const router = require('express').Router();
 
-router.post('/channel', createChannel);
-router.put('/channel', updateChannelInfo);
-router.delete('/channel', deleteChannel);
+router.post('/channel', isAuth, createChannel);
+router.put('/channel/info/:channel_id', isOwner,updateChannelInfo);
+router.delete('/channel/:channel_id', isOwner,deleteChannel);
 router.get('/channels', getAllAvailableChannels);
-router.get('/channels/:user_id', getAllUserSubscribedChannels);
-router.put('/channel/balance', putMoneyOnChannelBalance);
-router.post('/channel/subscribe', buySubscriptionForChannel);
-router.get('/channel/subscribtions/:channel_id', getAllSubscriptionsForChannel);
+router.get('/channels/ownlist', isAuth, getAllUserSubscribedChannels);
+router.post('/channel/subscribe', isAuth, buySubscriptionForChannel);
+router.get('/channel/subscribtions/:channel_id', isOwner, getAllSubscriptionsForChannel);
 
 module.exports = router;
