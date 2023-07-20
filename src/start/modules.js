@@ -9,10 +9,6 @@ const modules = (app) => {
     app.use(express.urlencoded({extended:true}));
     app.use(cookie());
     app.use('/api', routes);
-    // app.use(express.static(process.cwd() + '/src/public'));
-
-    // app.set('view engine', 'ejs');
-    // app.set('views', 'src/views');
 }
 
 module.exports = modules;

@@ -62,6 +62,17 @@ create table subscriptions(
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+create table posts(
+    post_id uuid default uuid_generate_v4() PRIMARY KEY not null,
+    title varchar(255),
+    body text,
+    user_id uuid,
+    channel_id uuid,
+    created_at timestamptz default CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (channel_id) REFERENCES channels(channel_id) ON DELETE CASCADE
+);
+
 --to find account_id by cardNumber
 
 SELECT bankAccounts.account_id FROM bankAccounts WHERE cardNumber = $1
