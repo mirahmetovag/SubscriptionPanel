@@ -4,11 +4,11 @@ const isOwner = require('../middlewares/isOwner');
 const router = require('express').Router();
 
 router.post('/channel', isAuth, createChannel);
-router.put('/channel/info/:channel_id', isOwner,updateChannelInfo);
-router.delete('/channel/:channel_id', isOwner,deleteChannel);
+router.put('/channel/info/:channel_id', isAuth , isOwner, updateChannelInfo);
+router.delete('/channel/:channel_id', isAuth, isOwner, deleteChannel);
 router.get('/channels', getAllAvailableChannels);
 router.get('/channels/ownlist', isAuth, getAllUserSubscribedChannels);
-router.post('/channel/subscribe', isAuth, buySubscriptionForChannel);
-router.get('/channel/subscribtions/:channel_id', isOwner, getAllSubscriptionsForChannel);
+router.post('/channel/subscribe/:channel_id', isAuth, buySubscriptionForChannel);
+router.get('/channel/subscribtions/:channel_id', isAuth, isOwner, getAllSubscriptionsForChannel);
 
 module.exports = router;

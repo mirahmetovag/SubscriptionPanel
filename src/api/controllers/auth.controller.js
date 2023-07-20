@@ -10,7 +10,6 @@ const register = async (req,res) => {
         return res.status(409).json({message: 'Username is already taken'});
     }
     const hashedPass = await hashPass(password);
-    console.log(hashedPass);
     const newUser = await fetchOne('insert into users (username, password, name, surname) values ($1,$2, $3, $4) returning*', username, hashedPass, name, surname);
     const token = sign(newUser.user_id);
     res.cookie('token',token);

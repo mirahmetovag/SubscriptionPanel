@@ -17,6 +17,7 @@ create table channels(
     name varchar(255) not null,
     description text not null,
     subscriptionPrice int,
+    subscriptionDuration int,
     owner_id uuid not null,
     created_at timestamptz default CURRENT_TIMESTAMP,
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
